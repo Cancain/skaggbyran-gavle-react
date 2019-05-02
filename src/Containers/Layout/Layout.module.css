@@ -2,8 +2,9 @@
   text-align: center;
   width: 100%;
   min-height: 100vh;
-  background-color: gray;
+  background-color: #b9d1e1;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  padding-bottom: 100px;
 }

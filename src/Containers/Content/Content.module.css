@@ -1,4 +1,6 @@
 .Content {
-  width: 100%;
+  width: 90%;
   min-height: 100%;
+  margin: 0 auto;
+  border-radius: 7px;
 }

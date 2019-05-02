@@ -6,7 +6,6 @@ import Router from "../../hoc/Router";
 const Content = props => {
   return (
     <div className={style.Content}>
-      <h1>Content</h1>
       <Router />
     </div>
   );

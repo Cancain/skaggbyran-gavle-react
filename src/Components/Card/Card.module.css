@@ -1,4 +1,14 @@
 .Card {
-  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 7px;
+  width: fit-content;
+  height: fit-content;
+  padding: 0 5px;
+  margin: 10px;
+}
+
+.Card h1,
+.Card p {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
 }
