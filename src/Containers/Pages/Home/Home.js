@@ -16,7 +16,6 @@ const Home = props => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    console.log("in useEffect");
     if (!pageDataLoaded) getPageData();
     if (!postDataLoaded) getPostData();
   });
@@ -67,7 +66,11 @@ const Home = props => {
             const title = post.title.rendered;
             const excerpt = post.excerpt.rendered;
             return (
-              <Card textColor="#5681A0" key={post.id} linkURL={"/post/post.id"}>
+              <Card
+                textColor="#5681A0"
+                key={post.id}
+                linkURL={`/post/${post.id}`}
+              >
                 <h1>{title}</h1>
                 <div dangerouslySetInnerHTML={{ __html: excerpt }} />
               </Card>
