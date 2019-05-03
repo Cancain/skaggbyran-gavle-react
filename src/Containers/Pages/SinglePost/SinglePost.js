@@ -10,6 +10,11 @@ const SinglePost = props => {
   const [errorMessage, setErrorMessage] = useState();
   const [hasError, setHasError] = useState(false);
 
+  const [images, setImages] = useState();
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imageHasError, setImageHasError] = useState(false);
+  const [imageError, setImageError] = useState();
+
   useEffect(() => {
     if (!postLoaded) getPost();
   });
@@ -28,13 +33,44 @@ const SinglePost = props => {
       });
   };
 
+  const getImageURL = id => {
+    wpInstance
+      .get(`/media?parent=${id}`)
+      .then(res => {
+        setImages(res.data);
+        setImgLoaded(true);
+      })
+      .catch(err => {
+        setImageHasError(true);
+        setImageError(err.message);
+      });
+  };
+
+  let renderImages = null;
+  if (imgLoaded) {
+    renderImages = images.map(image => {
+      const imgURL = image.media_details.sizes.medium.source_url;
+      const title = image.title.rendered;
+      const id = image.id;
+      return <img key={id} src={imgURL} alt={title} />;
+    });
+  }
+
   if (postLoaded) {
     const title = post.title.rendered;
     const content = post.content.rendered;
-    console.log(object);
+    if (!imgLoaded) getImageURL(post.id);
     return (
       <div>
         <h1>{title}</h1>
+        {!imageHasError ? (
+          renderImages
+        ) : (
+          <React.Fragment>
+            <p>Bild kunde tyvärr inte laddas</p>
+            <small>{imageError}</small>
+          </React.Fragment>
+        )}
         <div dangerouslySetInnerHTML={{ __html: content }} />
         <Link to="/">Tillbaka</Link>
       </div>
