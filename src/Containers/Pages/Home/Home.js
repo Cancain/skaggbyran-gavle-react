@@ -37,7 +37,7 @@ const Home = props => {
   };
 
   const getPostData = () => {
-    //Gets the page with id 6 (the "home" page) and stores in state
+    //Gets all the posts and stores in state
     wpInstance
       .get("/posts/")
       .then(res => {

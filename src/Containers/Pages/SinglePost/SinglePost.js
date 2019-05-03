@@ -18,7 +18,7 @@ const SinglePost = props => {
   useEffect(() => {
     if (!postLoaded) getPost();
   });
-
+  //Gets the post and adds to state
   const getPost = () => {
     const postId = props.match.params.id;
     wpInstance
@@ -46,6 +46,7 @@ const SinglePost = props => {
       });
   };
 
+  //Maps through the image state and renders them
   let renderImages = null;
   if (imgLoaded) {
     renderImages = images.map(image => {
