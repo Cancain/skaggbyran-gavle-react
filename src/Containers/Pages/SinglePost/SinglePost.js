@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Link from "../../../Components/UI/RouterLink/RouterLink";
 
 import { wpInstance } from "../../Axios/Axios";
 
@@ -73,7 +73,7 @@ const SinglePost = props => {
           </React.Fragment>
         )}
         <div dangerouslySetInnerHTML={{ __html: content }} />
-        <Link to="/">Tillbaka</Link>
+        <Link to="/" text="Tillbaka" color="white" fontSize="1.3rem" isButton />
       </div>
     );
   } else if (hasError) {

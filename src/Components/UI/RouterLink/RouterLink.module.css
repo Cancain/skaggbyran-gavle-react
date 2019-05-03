@@ -1,0 +1,10 @@
+.RouterLink {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.Button {
+  width: fit-content;
+  border-radius: 7px;
+  padding: 5px;
+}

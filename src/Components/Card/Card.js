@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "../UI/RouterLink/RouterLink";
 
 import classes from "./Card.module.css";
 
@@ -14,24 +14,15 @@ const Card = props => {
     borderRadius: props.borderRadius
   };
 
-  const linkStyle = {
-    color: props.linkColor ? props.linkColor : "white",
-    fontSize: "1.2rem",
-    cursor: "pointer",
-    textDecoration: "none"
-  };
-
   let linkHandler = null;
   if (props.linkURL) {
     linkHandler = (
-      <Link style={{ textDecoration: "none" }} to={props.linkURL}>
-        {props.linkText ? (
-          <p style={linkStyle}>{props.linkText}</p>
-        ) : (
-          <p style={linkStyle}>Läs mer</p>
-        )}
-        ;
-      </Link>
+      <Link
+        to={props.linkURL}
+        text={props.linkText ? props.linkText : "Läs mer"}
+        color={props.linkColor ? props.linkColor : "white"}
+        fontSize="1.3rem"
+      />
     );
   }
 
