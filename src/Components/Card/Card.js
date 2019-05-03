@@ -21,16 +21,24 @@ const Card = props => {
     textDecoration: "none"
   };
 
-  return (
-    <div className={classes.Card} style={style}>
-      {props.children}
-      <Link style={{ textDecoration: "none" }} to="/">
+  let linkHandler = null;
+  if (props.linkURL) {
+    linkHandler = (
+      <Link style={{ textDecoration: "none" }} to={props.linkURL}>
         {props.linkText ? (
           <p style={linkStyle}>{props.linkText}</p>
         ) : (
           <p style={linkStyle}>Läs mer</p>
         )}
+        ;
       </Link>
+    );
+  }
+
+  return (
+    <div className={classes.Card} style={style}>
+      {props.children}
+      {linkHandler}
     </div>
   );
 };

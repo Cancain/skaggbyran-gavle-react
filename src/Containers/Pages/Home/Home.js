@@ -31,6 +31,7 @@ const Home = props => {
           setHasError(true);
         });
     }
+
     //if the posts is not loaded, gets the page with id 6 (the "home" page) and stores in state
     if (!postDataLoaded) {
       wpInstance
@@ -39,6 +40,7 @@ const Home = props => {
           setPostData(res.data);
           setPostDataLoaded(true);
         })
+
         //If an error occurs, saves the error message in state and sets hasError to true
         .catch(err => {
           setErrorMessage(err.message);
@@ -61,7 +63,7 @@ const Home = props => {
             const title = post.title.rendered;
             const excerpt = post.excerpt.rendered;
             return (
-              <Card textColor="#5681A0" key={post.id}>
+              <Card textColor="#5681A0" key={post.id} linkURL={"/post/post.id"}>
                 <h1>{title}</h1>
                 <div dangerouslySetInnerHTML={{ __html: excerpt }} />
               </Card>
@@ -70,6 +72,7 @@ const Home = props => {
         </div>
       </div>
     );
+
     //If an error has occured while fetching, shows an error message
   } else if (hasError) {
     return (
@@ -79,6 +82,7 @@ const Home = props => {
       </React.Fragment>
     );
   }
+
   //While fetching is going on, shows a loding indicator
   return <h3>Laddar...</h3>;
 };
