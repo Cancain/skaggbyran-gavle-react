@@ -16,38 +16,42 @@ const Home = props => {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    //if the page is not loaded, gets the page with id 6 (the "home" page) and stores in state
-    if (!pageDataLoaded) {
-      wpInstance
-        .get("/pages/6")
-        .then(res => {
-          setPageData(res.data);
-          setPageDataLoaded(true);
-        })
-
-        //If an error occurs, saves the error message in state and sets hasError to true
-        .catch(err => {
-          setErrorMessage(err.message);
-          setHasError(true);
-        });
-    }
-
-    //if the posts is not loaded, gets the page with id 6 (the "home" page) and stores in state
-    if (!postDataLoaded) {
-      wpInstance
-        .get("/posts/")
-        .then(res => {
-          setPostData(res.data);
-          setPostDataLoaded(true);
-        })
-
-        //If an error occurs, saves the error message in state and sets hasError to true
-        .catch(err => {
-          setErrorMessage(err.message);
-          setHasError(true);
-        });
-    }
+    console.log("in useEffect");
+    if (!pageDataLoaded) getPageData();
+    if (!postDataLoaded) getPostData();
   });
+
+  const getPageData = () => {
+    //Gets the page with id 6 (the "home" page) and stores in state
+    wpInstance
+      .get("/pages/6")
+      .then(res => {
+        setPageData(res.data);
+        setPageDataLoaded(true);
+      })
+
+      //If an error occurs, saves the error message in state and sets hasError to true
+      .catch(err => {
+        setErrorMessage(err.message);
+        setHasError(true);
+      });
+  };
+
+  const getPostData = () => {
+    //Gets the page with id 6 (the "home" page) and stores in state
+    wpInstance
+      .get("/posts/")
+      .then(res => {
+        setPostData(res.data);
+        setPostDataLoaded(true);
+      })
+
+      //If an error occurs, saves the error message in state and sets hasError to true
+      .catch(err => {
+        setErrorMessage(err.message);
+        setHasError(true);
+      });
+  };
 
   if (pageDataLoaded && postDataLoaded) {
     const title = pageData.title.rendered;
