@@ -12,8 +12,11 @@ const Home = props => {
   const [postData, setPostData] = useState();
   const [postDataLoaded, setPostDataLoaded] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState();
+  const [hasError, setHasError] = useState(false);
+
   useEffect(() => {
-    console.log("in useEffect");
+    //if the page is not loaded, gets the page with id 6 (the "home" page) and stores in state
     if (!pageDataLoaded) {
       wpInstance
         .get("/pages/6")
@@ -21,9 +24,14 @@ const Home = props => {
           setPageData(res.data);
           setPageDataLoaded(true);
         })
-        .catch(err => console.log(err));
-    }
 
+        //If an error occurs, saves the error message in state and sets hasError to true
+        .catch(err => {
+          setErrorMessage(err.message);
+          setHasError(true);
+        });
+    }
+    //if the posts is not loaded, gets the page with id 6 (the "home" page) and stores in state
     if (!postDataLoaded) {
       wpInstance
         .get("/posts/")
@@ -31,14 +39,19 @@ const Home = props => {
           setPostData(res.data);
           setPostDataLoaded(true);
         })
-        .catch(err => console.log(err));
+        //If an error occurs, saves the error message in state and sets hasError to true
+        .catch(err => {
+          setErrorMessage(err.message);
+          setHasError(true);
+        });
     }
   });
 
   if (pageDataLoaded && postDataLoaded) {
-    // console.log(postData);
     const title = pageData.title.rendered;
     const content = pageData.content.rendered;
+
+    //If all fetches goes well, renders the page content and post content
     return (
       <div className={style.Home}>
         <h1>{title}</h1>
@@ -47,8 +60,6 @@ const Home = props => {
           {postData.map(post => {
             const title = post.title.rendered;
             const excerpt = post.excerpt.rendered;
-            // const imgUrl = post._links.wp:attachment;
-            console.log(imgUrl);
             return (
               <Card textColor="#5681A0" key={post.id}>
                 <h1>{title}</h1>
@@ -59,7 +70,16 @@ const Home = props => {
         </div>
       </div>
     );
+    //If an error has occured while fetching, shows an error message
+  } else if (hasError) {
+    return (
+      <React.Fragment>
+        <h3>Något gick fel, försök igen senare</h3>
+        <small>{errorMessage}</small>
+      </React.Fragment>
+    );
   }
+  //While fetching is going on, shows a loding indicator
   return <h3>Laddar...</h3>;
 };
 
