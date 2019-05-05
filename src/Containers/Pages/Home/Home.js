@@ -52,46 +52,56 @@ const Home = props => {
       });
   };
 
-  if (pageDataLoaded && postDataLoaded) {
-    const title = pageData.title.rendered;
-    const content = pageData.content.rendered;
-
-    //If all fetches goes well, renders the page content and post content
-    return (
-      <div className={style.Home}>
-        <h1>{title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-        <div>
-          {postData.map(post => {
-            const title = post.title.rendered;
-            const excerpt = post.excerpt.rendered;
-            return (
-              <Card
-                textColor="#5681A0"
-                key={post.id}
-                linkURL={`/post/${post.id}`}
-              >
-                <h1>{title}</h1>
-                <div dangerouslySetInnerHTML={{ __html: excerpt }} />
-              </Card>
-            );
-          })}
-        </div>
+  let renderPosts = null;
+  if (postDataLoaded & !hasError) {
+    renderPosts = (
+      <div>
+        {postData.map(post => {
+          const title = post.title.rendered;
+          const excerpt = post.excerpt.rendered;
+          return (
+            <Card
+              textColor="#5681A0"
+              key={post.id}
+              linkURL={`/post/${post.id}`}
+            >
+              <h1>{title}</h1>
+              <div dangerouslySetInnerHTML={{ __html: excerpt }} />
+            </Card>
+          );
+        })}
       </div>
-    );
-
-    //If an error has occured while fetching, shows an error message
-  } else if (hasError) {
-    return (
-      <React.Fragment>
-        <h3>Något gick fel, försök igen senare</h3>
-        <small>{errorMessage}</small>
-      </React.Fragment>
     );
   }
 
+  let renderPage = null;
+  if (pageDataLoaded & !hasError) {
+    const title = pageData.title.rendered;
+    const content = pageData.content.rendered;
+    renderPage = (
+      <div className={style.Home}>
+        <h1>{title}</h1>
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {renderPosts}
+      </div>
+    );
+  }
+
+  //If an error has occured while fetching, shows an error message
+  const renderError = (
+    <React.Fragment>
+      <h3>Något gick fel, försök igen senare</h3>
+      <small>{errorMessage}</small>
+    </React.Fragment>
+  );
+
   //While fetching is going on, shows a loding indicator
-  return <h3>Laddar...</h3>;
+  const renderLoading = <h3>Laddar...</h3>;
+
+  //Final rendering
+  if (renderPage != null) return renderPage;
+  else if (hasError) return renderError;
+  else return renderLoading;
 };
 
 export default Home;

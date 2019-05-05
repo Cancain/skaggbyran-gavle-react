@@ -12,14 +12,14 @@ const SinglePost = props => {
 
   const [images, setImages] = useState();
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [imageHasError, setImageHasError] = useState(false);
-  const [imageError, setImageError] = useState();
+  const [imgHasError, setImgHasError] = useState(false);
+  const [imgError, setImgError] = useState();
 
   useEffect(() => {
     if (!postLoaded) getPost();
+    if (!imgLoaded) getImages();
   });
 
-  //Gets the post and adds to state
   const getPost = () => {
     const postId = props.match.params.id;
     wpInstance
@@ -34,59 +34,69 @@ const SinglePost = props => {
       });
   };
 
-  const getImageURL = id => {
+  const getImages = () => {
+    const postId = props.match.params.id;
     wpInstance
-      .get(`/wp/v2/media?parent=${id}`)
+      .get(`/wp/v2/media?parent=${postId}`)
       .then(res => {
         setImages(res.data);
         setImgLoaded(true);
       })
       .catch(err => {
-        setImageHasError(true);
-        setImageError(err.message);
+        setImgHasError(true);
+        setImgError(err.message);
       });
   };
 
-  //Maps through the image state and renders them
-  let renderImages = null;
-  if (imgLoaded) {
-    renderImages = images.map(image => {
+  const fillImageArray = () => {
+    let img = [];
+    images.forEach(image => {
       const imgURL = image.media_details.sizes.medium.source_url;
       const title = image.title.rendered;
       const id = image.id;
-      return <img key={id} src={imgURL} alt={title} />;
+      img.push(<img key={id} src={imgURL} alt={title} />);
     });
-  }
+    return img;
+  };
 
+  const renderImgError = (
+    <div style={{ border: "1px solid black", borderRadius: "7px" }}>
+      <p>Bild kunde tyvärr inte laddas</p>
+      <small>{imgError}</small>
+    </div>
+  );
+
+  let renderImages = [];
+  if (imgLoaded) renderImages = fillImageArray();
+  else if (imgHasError) renderImages = [renderImgError];
+
+  let renderPost = null;
   if (postLoaded) {
     const title = post.title.rendered;
     const content = post.content.rendered;
-    if (!imgLoaded) getImageURL(post.id);
-
-    return (
+    renderPost = (
       <div>
         <h1>{title}</h1>
-        {!imageHasError ? (
-          renderImages
-        ) : (
-          <React.Fragment>
-            <p>Bild kunde tyvärr inte laddas</p>
-            <small>{imageError}</small>
-          </React.Fragment>
-        )}
+        {renderImages}
         <div dangerouslySetInnerHTML={{ __html: content }} />
         <Link to="/" text="Tillbaka" color="white" fontSize="1.3rem" isButton />
       </div>
     );
-  } else if (hasError) {
-    return (
-      <React.Fragment>
-        <h3>Något gick fel, försök igen senare</h3>
-        <small>{errorMessage}</small>
-      </React.Fragment>
-    );
   }
-  return <h3>Laddar...</h3>;
+
+  const renderError = (
+    <React.Fragment>
+      <h3>Något gick fel, försök igen senare</h3>
+      <small>{errorMessage}</small>
+    </React.Fragment>
+  );
+
+  const renderLoading = <h3>Laddar...</h3>;
+
+  //Final rendering
+  if (renderPost != null) return renderPost;
+  else if (hasError) return renderError;
+  else return renderLoading;
 };
 
 export default SinglePost;
