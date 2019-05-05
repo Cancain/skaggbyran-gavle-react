@@ -18,11 +18,12 @@ const SinglePost = props => {
   useEffect(() => {
     if (!postLoaded) getPost();
   });
+
   //Gets the post and adds to state
   const getPost = () => {
     const postId = props.match.params.id;
     wpInstance
-      .get(`/posts/${postId}`)
+      .get(`/wp/v2/posts/${postId}`)
       .then(res => {
         setPost(res.data);
         setPostLoaded(true);
@@ -35,7 +36,7 @@ const SinglePost = props => {
 
   const getImageURL = id => {
     wpInstance
-      .get(`/media?parent=${id}`)
+      .get(`/wp/v2/media?parent=${id}`)
       .then(res => {
         setImages(res.data);
         setImgLoaded(true);
@@ -61,6 +62,7 @@ const SinglePost = props => {
     const title = post.title.rendered;
     const content = post.content.rendered;
     if (!imgLoaded) getImageURL(post.id);
+
     return (
       <div>
         <h1>{title}</h1>

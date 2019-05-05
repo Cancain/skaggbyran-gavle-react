@@ -5,6 +5,7 @@ import Header from "../Header/Header";
 import Content from "../Content/Content";
 import MobileMenuBtn from "../../Components/UI/MobileMenuBtn/MobileMenuBtn";
 import Sidedrawer from "../Sidedrawer/Sidedrawer";
+import Navigation from "../Navigation/Navigation";
 function Layout() {
   const [sidedrawerOpen, setSidedrawerOpen] = useState(false);
 
@@ -15,7 +16,9 @@ function Layout() {
   return (
     <div className={style.Layout}>
       <Header />
-      <Sidedrawer open={sidedrawerOpen} />
+      <Sidedrawer open={sidedrawerOpen}>
+        <Navigation />
+      </Sidedrawer>
       <Content />
       <MobileMenuBtn
         backgroundColor="#5681A0"

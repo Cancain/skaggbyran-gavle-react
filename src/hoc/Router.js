@@ -9,6 +9,7 @@ const Router = props => {
     <Fragment>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/home" exact component={Home} />
         <Route path="/post/:id" exact component={SinglePost} />
       </Switch>
     </Fragment>
