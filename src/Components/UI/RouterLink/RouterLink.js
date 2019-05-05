@@ -6,7 +6,8 @@ import classes from "./RouterLink.module.css";
 const RouterLink = props => {
   const linkStyle = {
     color: props.color,
-    fontSize: props.fontSize
+    fontSize: props.fontSize,
+    margin: props.margin
   };
 
   const link = (
@@ -18,9 +19,13 @@ const RouterLink = props => {
     color: props.color,
     fontSize: props.fontSize,
     border: props.border ? props.border : "1px solid black",
+    borderRadius: props.borderRadius,
     backgroundColor: props.backgroundColor
       ? props.backgroundColor
-      : "rgba(0,0,0,3)"
+      : "rgba(0,0,0,3)",
+    width: props.width ? props.width : "fit-content",
+    height: props.height ? props.height : "fit-content",
+    margin: props.margin
   };
 
   const button = (

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { wpInstance } from "../Axios/Axios";
+import Link from "../../Components/UI/RouterLink/RouterLink";
+
+import style from "./Navigation.module.css";
 
 const Navigation = props => {
   const [menu, setMenu] = useState();
@@ -29,7 +32,18 @@ const Navigation = props => {
   let renderMenu = null;
   if (menuLoaded) {
     renderMenu = menu.items.map(menuItem => {
-      return <h4>{menuItem.title}</h4>;
+      return (
+        <Link
+          isButton
+          backgroundColor={"#B9D1E1"}
+          color="black"
+          text={menuItem.title}
+          width="92%"
+          fontSize="1.7rem"
+          margin="5px auto 0 auto"
+          borderRadius="0"
+        />
+      );
     });
   }
 
@@ -43,7 +57,7 @@ const Navigation = props => {
   const renderLoading = <h3>Laddar...</h3>;
 
   //Final rendering
-  if (menuLoaded) return <div>{renderMenu}</div>;
+  if (menuLoaded) return <div className={style.Navigation}>{renderMenu}</div>;
   else if (hasError) return renderError;
   else return renderLoading;
 };
