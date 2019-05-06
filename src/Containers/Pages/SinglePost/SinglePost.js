@@ -51,7 +51,7 @@ const SinglePost = props => {
   const fillImageArray = () => {
     let img = [];
     images.forEach(image => {
-      const imgURL = image.media_details.sizes.medium.source_url;
+      const imgURL = image.source_url;
       const title = image.title.rendered;
       const id = image.id;
       img.push(<img key={id} src={imgURL} alt={title} />);
