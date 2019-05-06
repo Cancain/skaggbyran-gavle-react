@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Link from "../../../Components/UI/RouterLink/RouterLink";
+import Link from "../../../../Components/UI/RouterLink/RouterLink";
 
-import { wpInstance } from "../../Axios/Axios";
+import { wpInstance } from "../../../Axios/Axios";
 
 const SinglePost = props => {
   const [post, setPost] = useState();
