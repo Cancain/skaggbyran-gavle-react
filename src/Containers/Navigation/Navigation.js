@@ -20,7 +20,6 @@ const Navigation = props => {
       .get("/menus/v1/menus/MainNav")
       .then(res => {
         setMenu(res.data);
-        console.log(menu);
         setMenuLoaded(true);
       })
       .catch(err => {
@@ -29,11 +28,26 @@ const Navigation = props => {
       });
   };
 
-  let renderMenu = null;
+  const getPageSlug = url => {
+    //Split URL by "/" into array
+    const splitURL = url.split("/");
+
+    //Remove all "falsy elements", this is to remove the last empty part of the URL
+    const filteredURL = splitURL.filter(Boolean);
+
+    //Get the last part of the URL, the slug used to get the page link
+    const slug = filteredURL[filteredURL.length - 1];
+    return slug;
+  };
+
+  let mobileMenu = null;
   if (menuLoaded) {
-    renderMenu = menu.items.map(menuItem => {
+    mobileMenu = menu.items.map(menuItem => {
+      const slug = getPageSlug(menuItem.url);
       return (
         <Link
+          to={slug}
+          key={menuItem.ID}
           isButton
           backgroundColor={"#B9D1E1"}
           color="black"
@@ -46,6 +60,8 @@ const Navigation = props => {
       );
     });
   }
+
+  let renderMenu = mobileMenu;
 
   const renderError = (
     <React.Fragment>
