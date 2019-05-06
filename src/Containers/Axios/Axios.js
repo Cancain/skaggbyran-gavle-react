@@ -1,5 +1,7 @@
 import axios from "axios";
 
 export const wpInstance = axios.create({
-  baseURL: "http://localhost/skaggbyran-gavle-react/WordPress/wp-json"
+  baseURL: "http://skaggbyrangavle.tomaseriksson.net/wp/wp-json"
 });
+
+// http://skaggbyrangavle.tomaseriksson.net/wp/wp-json

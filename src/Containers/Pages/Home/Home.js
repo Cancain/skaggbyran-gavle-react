@@ -23,7 +23,7 @@ const Home = props => {
   const getPageData = () => {
     //Gets the page with id 6 (the "home" page) and stores in state
     wpInstance
-      .get("/wp/v2/pages/6")
+      .get("/wp/v2/pages/9")
       .then(res => {
         setPageData(res.data);
         setPageDataLoaded(true);

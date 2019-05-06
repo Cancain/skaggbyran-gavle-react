@@ -36,7 +36,7 @@ const Navigation = props => {
     const filteredURL = splitURL.filter(Boolean);
 
     //Get the last part of the URL, the slug used to get the page link
-    const slug = filteredURL[filteredURL.length - 1];
+    const slug = "/" + filteredURL[filteredURL.length - 1];
     return slug;
   };
 
