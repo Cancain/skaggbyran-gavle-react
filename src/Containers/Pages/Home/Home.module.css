@@ -4,3 +4,8 @@
 .Home p {
   font-size: 1.2rem;
 }
+
+.Home img {
+  width: 80%;
+  margin: auto;
+}
