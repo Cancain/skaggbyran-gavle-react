@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { wpInstance } from "../../Axios/Axios";
 
 import Card from "../../../Components/Card/Card";
+import Img from "../../../Components/Img/Img";
 
 import style from "./Home.module.css";
 
@@ -74,14 +75,41 @@ const Home = props => {
     );
   }
 
+  const formatContent = splitContent => {
+    let formatedContent = [];
+
+    splitContent.forEach((str, index) => {
+      if (str.includes("<img")) {
+        const regex = /<img.*?src="(.*?)"/;
+        const src = regex.exec(str);
+        let srcString = src.toString();
+        srcString = srcString.replace("<img", "");
+        srcString = srcString.replace("src=", "");
+        console.log(srcString);
+
+        formatedContent[index] = str.replace("<img", "<Img");
+      } else {
+        formatedContent[index] = str;
+      }
+    });
+
+    return formatedContent;
+  };
+
   let renderPage = null;
   if (pageDataLoaded & !hasError) {
     const title = pageData.title.rendered;
     const content = pageData.content.rendered;
+
+    const splitContent = content.split(">");
+    let formatedContent = formatContent(splitContent);
+    // console.log(formatedContent.toString());
+
     renderPage = (
       <div className={style.Home}>
         <h1>{title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {formatedContent.toString()}
+        <div dangerouslySetInnerHTML={{ __html: formatedContent.toString() }} />
         {renderPosts}
       </div>
     );
